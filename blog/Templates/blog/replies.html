@@ -1,0 +1,13 @@
+<!-- replies.html -->
+{% for reply in comments %}
+    <div class="reply"> <!-- Apply indentation -->
+        <div class="comment-header" style="font-size: 14px; font-weight: bold;"> <!-- Style the comment header -->
+            <strong>{{ reply.user.username }}</strong> <span class="comment-date" style="font-size: 12px; color: #666;">{{ reply.created_on }}</span>
+        </div>
+        <div class="comment-body" style="margin-top: 5px;"> <!-- Style the comment body -->
+            <p>{{ reply.body }}</p>
+        </div>
+        <!-- Recursive call to display nested replies -->
+        {% include 'blog/replies.html' with comments=reply.replies.all %}
+    </div>
+{% endfor %}
