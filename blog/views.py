@@ -38,3 +38,22 @@ class BlogTagView(ListView):
         tag = self.kwargs['tag']
         return Post.objects.filter(tags__name=tag)
     
+class BlogTagView(ListView):
+    model = Post
+    template_name = 'blog_list.html'  # Same template as blog list
+    context_object_name = 'blogs'
+
+    def get_queryset(self):
+        tag = self.kwargs['tag']
+        return Post.objects.filter(tags__name=tag)
+
+class BlogAuthorView(ListView):
+    model = Post
+    template_name = 'blog_list.html'  # Same template as blog list
+    context_object_name = 'blogs'
+
+    def get_queryset(self):
+        author_username = self.kwargs['author_username']
+        return Post.objects.filter(author__username=author_username)
+
+    
