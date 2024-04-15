@@ -2,7 +2,6 @@
 {% block title %}Home{% endblock title %}
 {% block homeactive %}active{% endblock homeactive %}
 {% load static %}
-<!-- {% load humanize %} -->
 {% block js %}
 <script>
   let previews = document.getElementsByClassName('preview')
@@ -27,14 +26,14 @@
         <img src="/static/images/contact.jpg" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block" style=" background: black; border-radius: 60px;">
           <h5>Welcome To The myblogs</h5>
-          <p>Here Avalible Your Type Of Blogs You Can Visit Now</p>
+          <p>Here Available Your Type Of Blogs You Can Visit Now</p>
         </div>
       </div>
       <div class="carousel-item">
         <img src="/static/images/contact3.jpg " style="height: 337px;" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block" style=" background: black; border-radius: 60px;">
           <h5>This Service Is Very Useful</h5>
-          <p>Service is avalible for You (24x7)</p>
+          <p>Service is available for You (24x7)</p>
         </div>
       </div>
       <div class="carousel-item">
@@ -65,14 +64,36 @@
           <h3 class="mb-0 com-inp">{{post.title}}</h3>
           <div class="mb-1 text-muted"><span class="badge text-bg-light" style="font-size: xx-small">{{post.timeStamp}}</span></div>
           <p class="mb-auto"><div class="preview com-inp">{{post.body|truncatechars:300}}</div></p>
+          <div class="mb-2">
+            Categories: 
+            {% for category in post.categories.all %}
+              <button class="btn btn-outline-primary btn-sm" onclick="filterByCategory('{{ category.name }}')">{{ category.name }}</button>
+            {% endfor %}
+          </div>
           <div>
-            <a href="{% url 'blog-detail' pk=post.pk %}" role="button" class="btn btn-primary">Continue reading</a>
+            Tags: 
+            {% for tag in post.tags.all %}
+              <button class="btn btn-outline-secondary btn-sm" onclick="filterByTag('{{ tag.name }}')">{{ tag.name }}</button>
+            {% endfor %}
+          </div>
+          <div>
+            <a href="{% url 'blog-detail' pk=post.pk %}" role="button" class="btn btn-primary mt-2">Continue reading</a>
           </div> 
         </div>
       </div>
     </div>
-   
     {% endfor %}
   </div>
 </div>
+
+<script>
+  function filterByCategory(category) {
+    window.location.href = '/category/' + category;;
+  }
+
+  function filterByTag(tag) {
+    window.location.href = '/tag/' + tag;
+  }
+</script>
+
 {% endblock body %}

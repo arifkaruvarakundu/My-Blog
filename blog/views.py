@@ -11,36 +11,42 @@ class BlogListView(ListView):
     context_object_name = 'blogs'
 
     
+
 class BlogCategoryView(ListView):
     model = Post
-    template_name = 'blog_list.html'  # Same template as blog list
+    template_name = 'home/index.html'  
     context_object_name = 'blogs'
 
     def get_queryset(self):
         category = self.kwargs['category']
         return Post.objects.filter(categories__name=category)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        print("@@@@@@@@@@@@@@@@@@@@@@@",context)
+        return context
+
 class BlogTagView(ListView):
     model = Post
-    template_name = 'blog_list.html'  # Same template as blog list
+    template_name = 'home/index.html'  
     context_object_name = 'blogs'
 
     def get_queryset(self):
         tag = self.kwargs['tag']
         return Post.objects.filter(tags__name=tag)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tags'] = Tag.objects.all()
+        return context
+
     
-class BlogTagView(ListView):
-    model = Post
-    template_name = 'blog_list.html'  # Same template as blog list
-    context_object_name = 'blogs'
 
-    def get_queryset(self):
-        tag = self.kwargs['tag']
-        return Post.objects.filter(tags__name=tag)
 
 class BlogAuthorView(ListView):
     model = Post
-    template_name = 'blog_list.html'  # Same template as blog list
+    template_name = 'home/index.html'  # Same template as blog list
     context_object_name = 'blogs'
 
     def get_queryset(self):

@@ -35,7 +35,7 @@
   </div>
   {% endif %}
 
-  {% for comment in comments %}
+  {% for comment in comments reversed %}
   <div class="comment">
     <div class="row my-3" style="background-color: #f4f4f4; padding: 5px;border: 1px solid #ccc; border-radius: 10px;margin: 10px 0;">
       <div class="col-md-1" style="text-align: center">
@@ -45,10 +45,26 @@
         <b>{{comment.user.username}}</b>
         <span class="badge text-bg-light" style="font-size: xx-small">{{comment.created_on|naturaltime}}</span>
         <div>{{comment.body}}</div>
+        <div class="replies my-1">
+          {% for reply in comment.replies.all %}
+          <div class="row my-1" style="background-color: #f4f4f4; padding: 5px;border: 1px solid #ccc; border-radius: 10px;margin: 10px 0;">
+            <div class="col-md-1" style="text-align: center">
+              <img src="{% static '/images/profile.jpg' %}" alt="mdo" width="24" height="24" class="border border-black rounded-circle" />
+            </div>
+            <div class="col-md-11">
+              <b>{{reply.user.username}}</b>
+              <span class="badge text-bg-light" style="font-size: xx-small">{{reply.created_on|naturaltime}}</span>
+              <div>{{reply.body}}</div>
+            </div>
+            <br />
+          </div>
+          {% endfor %}
+        </div>
         <div class="reply mx-0">
           <button class="btn badge bg-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#replyBox{{comment.id}}" aria-expanded="false" aria-controls="replyBox{{comment.id}}">Reply</button>
           <div class="collapse" id="replyBox{{comment.id}}">
             <div class="card card-body my-2">
+              {% if user.is_authenticated %}
               <form action="{% url 'postComment' %}" method="post">
                 {% csrf_token %}
                 <div class="mb-1">
@@ -58,22 +74,15 @@
                   <button class="btn btn-sm btn-primary" type="submit">Reply</button>
                 </div>
               </form>
-            </div>
-          </div>
-          <div class="replies my-1">
-            {% for reply in comment.replies.all %}
-            <div class="row my-1" style="background-color: #f4f4f4; padding: 5px;border: 1px solid #ccc; border-radius: 10px;margin: 10px 0;">
-              <div class="col-md-1" style="text-align: center">
-                <img src="{% static '/images/profile.jpg' %}" alt="mdo" width="24" height="24" class="border border-black rounded-circle" />
+              {% else %}
+              <div class="mb-1">
+                <input type="text" class="form-control" name="comment" style="background-color: #f4f4f4;padding: 5px;border: 1px solid #ccc;border-radius: 10px;margin: 10px 0;" placeholder="Reply Here" />
+                <input type="hidden" name="parentid" value="{{comment.id}}" />
+                <input type="hidden" name="postid" value="{{post.id}}" />
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modelsignup" type="submit">Reply</button>
               </div>
-              <div class="col-md-11">
-                <b>{{reply.user.username}}</b>
-                <span class="badge text-bg-light" style="font-size: xx-small">{{reply.created_on|naturaltime}}</span>
-                <div>{{reply.body}}</div>
-              </div>
-              <br />
+              {% endif %}
             </div>
-            {% endfor %}
           </div>
         </div>
       </div>
