@@ -54,7 +54,7 @@
     margin-top: 20px;
 }  
   </style>
-  <link rel="stylesheet" href='{% static "/css/style.css" %}' important>
+  
   {% block style %}{% endblock style %}
 </head>
 
@@ -75,18 +75,7 @@
             <a class="nav-link {% block blogactive %}{% endblock blogactive %}" href="/blog">
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link {% block contactactive %}{% endblock contactactive %}" href="/contact">Contact</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% block aboutactive %}{% endblock aboutactive %}" href="/about">About</a>
-          </li>
         </ul>
-        <form method="get" action="/search" class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" name='query' id="searchs"
-            aria-label="Search">
-          <button class="btn btn-outline-primary " style="margin-right: 45px" type="submit">Search</button>
-        </form>
 
         {% if user.is_authenticated %}
         <!-- Button logout trigger -->
@@ -240,8 +229,6 @@
             <div class="footer-links">
                 <ul>
                     <li><a href="/"><i>Home</i></a></li>
-                    <li><a href="/about"><i>About</i></a></li>
-                    <li><a href="/contact"><i>Contact</i></a></li>
                 </ul>
             </div>
             <div class="footer-links mx-5">
