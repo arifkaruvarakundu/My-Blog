@@ -14,7 +14,6 @@ class IndexView(View):
         context = {'top_posts': top_posts}
         return render(request, 'home/index.html', context)
 
-
 class SignupView(View):
     def post(self, request):
         if request.method == "POST":

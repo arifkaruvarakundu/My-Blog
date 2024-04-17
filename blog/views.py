@@ -1,17 +1,11 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import redirect
 from django.contrib import messages
-# Create your views here.
 from django.views import View
 from django.views.generic import ListView, DetailView
+from django.db.models import Prefetch
 from blog.models import *
 
-class BlogListView(ListView):
-    model = Post
-    template_name = 'blog/blogHome.html'  # Your template for listing blogs
-    context_object_name = 'blogs'
-
-    
-
+# Create your views here.
 class BlogCategoryView(ListView):
     model = Post
     template_name = 'home/index.html'  
@@ -40,23 +34,6 @@ class BlogTagView(ListView):
         context['tags'] = Tag.objects.all()
         return context
 
-    
-
-
-class BlogAuthorView(ListView):
-    model = Post
-    template_name = 'home/index.html'  # Same template as blog list
-    context_object_name = 'blogs'
-
-    def get_queryset(self):
-        author_username = self.kwargs['author_username']
-        return Post.objects.filter(author__username=author_username)
-
-from django.views import View
-from django.shortcuts import redirect
-from django.contrib import messages
-from .models import Post, Comment
-
 class PostCommentView(View):
     def post(self, request):
         if request.method == 'POST':
@@ -79,10 +56,6 @@ class PostCommentView(View):
                 messages.success(request, "Your Reply has been Posted Successfully")
 
         return redirect('blog-detail', pk=post.id)
-
-
-
-from django.db.models import Prefetch
 
 class BlogPostDetailView(DetailView):
     model = Post

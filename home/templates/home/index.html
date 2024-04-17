@@ -87,12 +87,27 @@
 </div>
 <script>
   function filterByCategory(category) {
-    window.location.href = '/category/' + category + '/';
+    let posts = document.getElementsByClassName("indexc");
+    for (let post of posts) {
+      if (post.innerText.includes(category)) {
+        post.style.display = "block";
+      } else {
+        post.style.display = "none";
+      }
+    }
   }
 
   function filterByTag(tag) {
-    window.location.href = '/tag/' + tag + '/';
+    let posts = document.getElementsByClassName("indexc");
+    for (let post of posts) {
+      if (post.innerText.includes(tag)) {
+        post.style.display = "block";
+      } else {
+        post.style.display = "none";
+      }
+    }
   }
 </script>
+
 
 {% endblock body %}
